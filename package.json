@@ -19,5 +19,18 @@
     "node-fetch": "^3.3.2",
     "nodemon": "^3.1.10",
     "react-redux": "^9.2.0"
-  }
+  },
+  "devDependencies": {
+    "@types/node": "^25.1.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/akhildas675/second_fulldomain.git"
+  },
+  "bugs": {
+    "url": "https://github.com/akhildas675/second_fulldomain/issues"
+  },
+  "homepage": "https://github.com/akhildas675/second_fulldomain#readme"
 }

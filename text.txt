@@ -1,1 +1,280 @@
 6/12/2025, 10:30:14 AM
+
+//Q3
+
+class SubscriptionService {
+  calculatePrice(plan: string, months: number): number {
+    if (plan === "BASIC") {
+      return 10 * months;
+    }
+    if (plan === "PREMIUM") {
+      return 20 * months * 0.9; // 10% discount
+    }
+    if (plan === "PRO") {
+      return 30 * months * 0.85; // 15% discount
+    }
+    return 0;
+  }
+  
+  getFeatures(plan: string): string[] {
+    if (plan === "BASIC") {
+      return ["Food logging", "Activity tracking"];
+    }
+    if (plan === "PREMIUM") {
+      return ["Food logging", "Activity tracking", "AI workouts"];
+    }
+    if (plan === "PRO") {
+      return ["Food logging", "Activity tracking", "AI workouts", "Trainer access"];
+    }
+    return [];
+  }
+}
+
+
+
+
+Q4
+
+class NotificationService {
+  sendNotification(type: string, userId: string, message: string): void {
+    if (type === "EMAIL") {
+      console.log(`Sending email to ${userId}: ${message}`);
+      // email logic
+    }
+    if (type === "SMS") {
+      console.log(`Sending SMS to ${userId}: ${message}`);
+      // SMS logic
+    }
+    if (type === "PUSH") {
+      console.log(`Sending push notification to ${userId}: ${message}`);
+      // push notification logic
+    }
+  }
+}
+
+
+Q5
+
+
+class WorkoutService {
+  generateWorkout(userLevel: string, goal: string, equipment: string): any {
+    if (userLevel === "BEGINNER" && goal === "WEIGHT_LOSS" && equipment === "HOME") {
+      return {
+        exercises: ["Jumping jacks", "Squats", "Push-ups"],
+        sets: 3,
+        reps: 12
+      };
+    }
+    if (userLevel === "BEGINNER" && goal === "WEIGHT_LOSS" && equipment === "GYM") {
+      return {
+        exercises: ["Treadmill", "Dumbbell squats", "Bench press"],
+        sets: 3,
+        reps: 12
+      };
+    }
+    // ... 50 more if conditions for different combinations!
+  }
+}
+
+
+
+class BookingService {
+  bookTrainer(userId: string, trainerId: string, date: Date): any {
+    // Check if user has subscription
+    const user = this.userRepo.findById(userId);
+    if (!user.subscription || user.subscription.expired) {
+      throw new Error("No active subscription");
+    }
+    
+    // Check if trainer is available
+    const trainer = this.trainerRepo.findById(trainerId);
+    if (!trainer.isAvailable(date)) {
+      throw new Error("Trainer not available");
+    }
+    
+    // Check if user has reached booking limit
+    const bookings = this.bookingRepo.findByUserId(userId);
+    if (bookings.length >= 5) {
+      throw new Error("Booking limit reached");
+    }
+    
+    // Create booking
+    const booking = this.bookingRepo.create({userId, trainerId, date});
+    
+    // Send notification
+    this.emailService.send(user.email, "Booking confirmed");
+    this.smsService.send(trainer.phone, "New booking");
+    
+    // Log activity
+    this.logger.log("Booking created");
+    
+    return booking;
+  }
+}
+
+
+class MealService {
+  calculateMacros(foodItems: any[], userGoal: string): any {
+    let totalProtein = 0;
+    let totalCarbs = 0;
+    let totalFats = 0;
+    let totalCalories = 0;
+    
+    // Calculate totals
+    for (const item of foodItems) {
+      totalProtein += item.protein;
+      totalCarbs += item.carbs;
+      totalFats += item.fats;
+      totalCalories += item.calories;
+    }
+    
+    // Check against goals
+    if (userGoal === "WEIGHT_LOSS") {
+      if (totalCalories > 1500) {
+        return { status: "OVER", message: "Too many calories!" };
+      }
+    }
+    if (userGoal === "MUSCLE_GAIN") {
+      if (totalProtein < 150) {
+        return { status: "UNDER", message: "Need more protein!" };
+      }
+    }
+    if (userGoal === "MAINTENANCE") {
+      if (totalCalories < 1800 || totalCalories > 2200) {
+        return { status: "OFF", message: "Adjust calories!" };
+      }
+    }
+    
+    return {
+      protein: totalProtein,
+      carbs: totalCarbs,
+      fats: totalFats,
+      calories: totalCalories
+    };
+  }
+}
+
+
+
+class ProgressService {
+  getProgress(userId: string, type: string): any {
+    if (type === "WEIGHT") {
+      const records = this.db.query(`SELECT * FROM weight WHERE userId = ${userId}`);
+      return this.calculateWeightTrend(records);
+    }
+    if (type === "STEPS") {
+      const records = this.db.query(`SELECT * FROM steps WHERE userId = ${userId}`);
+      return this.calculateStepsTrend(records);
+    }
+    if (type === "CALORIES") {
+      const records = this.db.query(`SELECT * FROM calories WHERE userId = ${userId}`);
+      return this.calculateCaloriesTrend(records);
+    }
+  }
+  
+  private calculateWeightTrend(records: any[]): any {
+    // complex calculation
+  }
+  
+  private calculateStepsTrend(records: any[]): any {
+    // complex calculation
+  }
+  
+  private calculateCaloriesTrend(records: any[]): any {
+    // complex calculation
+  }
+}
+
+
+class AIWorkoutService {
+  async generateWorkout(userId: string): Promise<any> {
+    // Check if user is subscribed
+    const user = await this.userRepo.findById(userId);
+    if (!user.isPremium) {
+      // Check free tier limit
+      const today = new Date().toDateString();
+      const count = await this.usageRepo.countToday(userId);
+      if (count >= 1) {
+        throw new Error("Free tier: 1 workout per day");
+      }
+    }
+    
+    // Get user profile
+    const profile = await this.profileRepo.findByUserId(userId);
+    
+    // Call AI API
+    const workout = await this.openaiService.generate({
+      level: profile.level,
+      goal: profile.goal,
+      equipment: profile.equipment,
+      injuries: profile.injuries
+    });
+    
+    // Save workout
+    await this.workoutRepo.save({userId, workout, createdAt: new Date()});
+    
+    // Update usage count
+    await this.usageRepo.increment(userId);
+    
+    // Send notification
+    await this.notificationService.send(userId, "Workout ready!");
+    
+    return workout;
+  }
+}
+
+
+class TrainerAssignmentService {
+  async assignTrainer(userId: string, preferences: any): Promise<any> {
+    // Get available trainers
+    const trainers = await this.db.query("SELECT * FROM trainers WHERE isActive = true");
+    
+    // Filter by specialization
+    const filtered = trainers.filter(t => {
+      if (preferences.goal === "WEIGHT_LOSS") {
+        return t.specializations.includes("Weight Loss");
+      }
+      if (preferences.goal === "MUSCLE_GAIN") {
+        return t.specializations.includes("Muscle Building");
+      }
+      return true;
+    });
+    
+    // Filter by availability
+    const available = filtered.filter(t => {
+      const bookings = this.db.query(`SELECT COUNT(*) FROM bookings WHERE trainerId = ${t.id}`);
+      return bookings < t.maxClients;
+    });
+    
+    // Filter by rating
+    const topRated = available.filter(t => t.rating >= 4.5);
+    
+    // Filter by price
+    const affordable = topRated.filter(t => t.price <= preferences.maxBudget);
+    
+    // Sort by experience
+    affordable.sort((a, b) => b.experience - a.experience);
+    
+    // Get top match
+    const trainer = affordable[0];
+    
+    if (!trainer) {
+      throw new Error("No trainers available");
+    }
+    
+    // Create assignment
+    await this.db.query(`INSERT INTO assignments (userId, trainerId) VALUES (${userId}, ${trainer.id})`);
+    
+    // Send notifications
+    await this.emailService.send(user.email, "Trainer assigned!");
+    await this.emailService.send(trainer.email, "New client assigned!");
+    
+    // Create initial session
+    await this.sessionService.createInitialSession(userId, trainer.id);
+    
+    // Log assignment
+    console.log(`Assigned trainer ${trainer.id} to user ${userId}`);
+    
+    return trainer;
+  }
+}
