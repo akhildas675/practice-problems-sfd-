@@ -11,18 +11,3 @@
 // }
 
 
-class Order{
-    addItem(){}
-    removeFood(){}
-    total(){}
-    applyDiscount(){}
-    
-}
-
-class OrderDB{
-    save(order:Order){}
-}
-
-class OrderConfirm{
-    send(order:Order){}
-}

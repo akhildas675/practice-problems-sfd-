@@ -1,0 +1,49 @@
+// class LibraryBook {
+//     borrowBook() { }
+//     returnBook() { }
+//     calculateLateFee() { }
+//     saveBook() { }
+//     sendDueDateReminder() { }
+//     generateBorrowReport() { }
+// }
+
+class LibraryBook {
+    borrowBook() { }
+    returnBook() { }
+    calculateLateFee() { }
+}
+
+
+class LibraryBookRepository{
+    save(book:LibraryBook){}
+}
+
+class ReminderProvider{
+    send(book:LibraryBook){}
+}
+
+class BookReportGenerator{
+    generate(book:LibraryBook){}
+}
+
+
+const book = new LibraryBook()
+
+
+book.borrowBook()
+book.returnBook()
+book.calculateLateFee()
+
+
+const repository = new LibraryBookRepository()
+
+repository.save(book);
+
+
+const reminder = new ReminderProvider()
+
+reminder.send(book);
+
+const report = new BookReportGenerator();
+
+report.generate(book)
