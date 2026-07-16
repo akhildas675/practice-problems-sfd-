@@ -1,24 +1,16 @@
 
-import WorkoutList from "./Components/WorkoutFetch";
-
+import ParentOne from "./Components/props/ParentOne";
 
 
 
 const App = () => {
-
   return (
-  
+    <div>
+      <ParentOne />
+
    
-   <div>
-   
-  <WorkoutList/>
-   
-   </div>
-  
+    </div>
   );
-}
+};
 
 export default App;
-
-
-

@@ -1,0 +1,69 @@
+1. class MovieTicket {
+  bookTicket() {}
+  cancelTicket() {}
+  calculatePrice() {}
+  saveTicket() {}
+  sendBookingConfirmation() {}
+  generateTicketPDF() {}
+}
+
+2. class EmployeePayroll {
+  calculateSalary() {}
+  calculateBonus() {}
+  savePayroll() {}
+  sendSalaryEmail() {}
+  exportPaySlip() {}
+}
+2.
+class HotelReservation {
+  reserveRoom() {}
+  cancelReservation() {}
+  calculateBill() {}
+  applySeasonDiscount() {}
+  saveReservation() {}
+  sendReservationEmail() {}
+  generateInvoice() {}
+}
+
+
+4.
+class FoodDelivery {
+  placeOrder() {}
+  cancelOrder() {}
+
+  calculateDeliveryFee(type: string) {
+    if (type === "bike") {
+      return 50;
+    } else if (type === "car") {
+      return 100;
+    } else if (type === "express") {
+      return 200;
+    }
+
+    return 0;
+  }
+
+  applyCoupon() {}
+
+  saveOrder() {}
+
+  sendOrderNotification() {}
+
+  generateReceipt() {}
+}
+
+
+5.
+class TaxCalculator {
+  calculate(type: string) {
+    if (type === "india") {
+      return 18;
+    } else if (type === "usa") {
+      return 10;
+    } else if (type === "uk") {
+      return 20;
+    }
+
+    return 0;
+  }
+}

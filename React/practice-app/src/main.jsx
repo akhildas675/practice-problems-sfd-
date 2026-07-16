@@ -10,7 +10,7 @@ import { store } from './Components/Redux/Store/FetchStore.jsx';
 
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
+
    
 
 <Provider store={store}>
@@ -23,5 +23,5 @@ createRoot(document.getElementById('root')).render(
 </Provider>
 
    
-  </StrictMode>,
+
 )
