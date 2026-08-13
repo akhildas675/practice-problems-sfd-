@@ -1,3 +1,17 @@
+/*
+Question 1
+1. class MovieTicket {
+  bookTicket() {}
+  cancelTicket() {}
+  calculatePrice() {}
+  saveTicket() {}
+  sendBookingConfirmation() {}
+  generateTicketPDF() {}
+}
+
+*/
+
+
 class MovieTicket{
     constructor(
        public readonly id:string,
@@ -11,19 +25,19 @@ class MovieTicket{
 
 class MovieTicketRepository{
     save(ticket:MovieTicket):void{
-        console.log("saving ticket");
+        console.log("saving ticket",ticket);
     }
 }
 
 class BookingConfirmService{
     send(ticket:MovieTicket):void{
-        console.log("Sending Ticket")
+        console.log("Sending Ticket",ticket)
     }
 }
 
 class GenerateTicketService{
     generate(ticket:MovieTicket):void{
-        console.log("Generate ticket")
+        console.log("Generate ticket",ticket)
     }
 }
 
