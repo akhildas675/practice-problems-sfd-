@@ -19,16 +19,19 @@ let removeElement = 3;
 
 //with-out in-build method
 
+function removeValue(arr,val){
 
-for(let i=0;i<arr.length;i++){
-    if(removeElement==arr[i]){
-       
-       for(let j=i;j<arr.length-1;j++){
+  for(let i=0;i<arr.length;i++){
+    if(val==arr[i]){
+      for(let j=i;j<arr.length-1;j++){
         arr[j]=arr[j+1];
-       }
-
-       arr.length--;
-       i--
+      }
+      arr.length--
+      i--
     }
+  }
+  return arr
+
 }
-console.log(arr)
+
+console.log(removeValue(arr,removeElement))
