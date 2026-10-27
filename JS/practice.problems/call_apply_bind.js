@@ -75,11 +75,19 @@
 
 
 const person={
-    name:Akhil,
-    place:kerala,
+    name:"Akhil",
+    place:"Kerala",
+};
+
+
+function details(...data){
+    console.log(`Hi I am ${this.name}, I am from ${data} ${this.place}`)
 }
 
 
-function details(Phone){
-    console.log()
-}
+details.call(person,"Palakkad")
+details.apply(person,["Kochi"])
+
+const user = details.bind(person,"Thrissur")
+
+user()
